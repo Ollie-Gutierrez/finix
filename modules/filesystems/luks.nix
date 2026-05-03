@@ -75,6 +75,8 @@
 
   config = lib.mkMerge [
     (lib.mkIf config.boot.initrd.supportedFilesystems.luks.enable {
+      boot.kernelModules = [ "dm_mod" "dm_crypt" ];
+
       boot.initrd.availableKernelModules = [
         "dm_mod"
         "dm_crypt"
