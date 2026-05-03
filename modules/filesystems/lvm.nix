@@ -12,6 +12,13 @@
         default = false;
         description = ''
           Whether to enable LVM support in the initial ramdisk.
+
+          This is set automatically when {option}`neededForBoot` is `true` on a
+          file system backed by an LVM logical volume.
+
+          To use LVM, declare your logical volumes under {option}`fileSystems`
+          using their `/dev/mapper/<vg>-<lv>` device paths. The volume group
+          will be activated automatically during the initial ramdisk.
         '';
       };
 

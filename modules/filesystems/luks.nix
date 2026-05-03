@@ -12,6 +12,36 @@
         default = false;
         description = ''
           Whether to enable LUKS encrypted device support in the initial ramdisk.
+
+          This is set automatically when {option}`neededForBoot` is `true` on a
+          LUKS fileSystem entry.
+
+          To use LUKS, declare a {option}`fileSystems` entry with {option}`fsType`
+          set to `"luks"`. The attribute name is used as the device mapper name,
+          and {option}`device` should point to the LUKS partition. You must set
+          {option}`neededForBoot` to `true` on this entry so that it is unlocked
+          in the initial ramdisk.
+
+          Options set in the {option}`options` attribute are passed as flags to
+          {command}`cryptsetup open`.
+
+          ::: {.example}
+          ### Encrypted root partition with discards
+
+          ```nix
+          fileSystems."/dev/mapper/root" = {
+            device = "/dev/sda2";
+            fsType = "luks";
+            neededForBoot = true;
+            options = [ "--allow-discards" ];
+          };
+
+          fileSystems."/" = {
+            device = "/dev/mapper/root";
+            fsType = "ext4";
+          };
+          ```
+          :::
         '';
       };
 
