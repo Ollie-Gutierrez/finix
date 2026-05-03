@@ -69,7 +69,7 @@
         lib.mapAttrsToList (
           name: dev:
           let
-            fsOpts = lib.concatStringsSep " " dev.options;
+            fsOpts = lib.concatStringsSep " " (lib.filter (o: o != "defaults") dev.options);
           in
           "cryptsetup open ${fsOpts} ${dev.device} ${name}"
         ) (lib.filterAttrs (_: fs: fs.fsType == "luks") config.fileSystems)
