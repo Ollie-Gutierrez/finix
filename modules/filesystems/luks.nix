@@ -75,7 +75,7 @@
             let
               fsOpts = lib.concatStringsSep " " dev.options;
             in
-            "cryptsetup open ${fsOpts} ${dev.device} ${name}"
+            "DM_DISABLE_UDEV=1 cryptsetup open ${fsOpts} ${dev.device} ${name}"
           ) (lib.filterAttrs (_: fs: fs.fsType == "luks") config.fileSystems)
         )
       );
