@@ -51,12 +51,7 @@
     (lib.mkIf config.boot.initrd.supportedFilesystems.lvm.enable {
       boot.initrd.kernelModules = [ "dm_mod" ];
 
-      boot.initrd.fileSystemImportCommands = lib.mkOrder 600 (
-        if config.services.udev.enable || !config.services.mdevd.enable then
-          "lvm vgchange -ay"
-        else
-          "lvm vgchange -ay --noudevsync\ndmsetup mknodes"
-      );
+      boot.initrd.fileSystemImportCommands = lib.mkOrder 600 "lvm vgchange -ay --noudevsync\ndmsetup mknodes";
     })
   ];
 }
